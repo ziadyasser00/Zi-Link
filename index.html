@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zi Link - شبكة التواصل الاجتماعي المبسطة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --accent-color: #fd79a8;
+            --dark-color: #2d3436;
+            --light-color: #f5f6fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* تصميم الشعار */
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .logo h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            position: relative;
+        }
+
+        .logo h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        /* تصميم واجهة الدخول */
+        .login-container {
+            background-color: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.8s forwards 0.3s;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .signup-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* تصميم الواجهة الرئيسية (مخفية في البداية) */
+        .main-app {
+            display: none;
+            grid-template-columns: 300px 1fr 350px;
+            gap: 20px;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box; /* Ensure padding is included in height */
+        }
+
+        /* الشريط الجانبي */
+        .sidebar {
+            background-color: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Push logout to bottom */
+        }
+
+        .profile-card {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            overflow: hidden; /* For image avatars */
+        }
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .profile-id {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+            flex-grow: 1; /* Allow menu to take available space */
+        }
+
+        .nav-item {
+            margin-bottom: 10px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 10px;
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .nav-link i {
+            margin-left: 10px;
+            font-size: 1.2rem;
+        }
+
+        .logout-btn {
+            background-color: #ff4757;
+            margin-top: 20px; /* Space from nav menu */
+        }
+
+        .logout-btn:hover {
+            background-color: #e63748;
+        }
+
+
+        /* منطقة المحادثات */
+        .chat-area {
+            background-color: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 40px); /* Adjust for padding of main-app */
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        .chat-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: flex-end; /* Align messages to bottom of their box */
+        }
+
+        .message .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-left: 10px;
+        }
+
+        .message.received {
+            justify-content: flex-start;
+        }
+
+        .message.sent {
+            justify-content: flex-end;
+            flex-direction: row-reverse; /* Put sender avatar on the right */
+        }
+
+        .message.sent .avatar {
+            margin-right: 10px;
+            margin-left: 0;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 12px 15px;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .message.received .message-content {
+            background-color: #f1f1f1;
+            border-top-right-radius: 0;
+        }
+
+        .message.sent .message-content {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-top-left-radius: 0;
+        }
+
+        .message-sender {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 5px;
+            text-align: right;
+            direction: rtl; /* Ensure sender name is right-aligned */
+        }
+
+        .message.sent .message-sender {
+            color: #ccc; /* Lighter color for sent messages */
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            color: #999;
+            text-align: left; /* Keep time left for sent messages */
+            margin-top: 5px;
+        }
+        .message.sent .message-time {
+             text-align: right; /* Keep time right for sent messages */
+             color: #eee;
+        }
+        .message img, .message video {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 5px;
+        }
+
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-input input[type="text"] {
+            flex-grow: 1;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        .chat-input input[type="text"]:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+
+        .chat-input button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            transition: all 0.3s;
+        }
+        .chat-input button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(108, 92, 231, 0.2);
+        }
+        .chat-input input[type="file"] {
+            display: none; /* Hide default file input */
+        }
+        .chat-input .file-upload-btn {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .chat-input .file-upload-btn:hover {
+            background-color: #e66792;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(253, 121, 168, 0.2);
+        }
+
+
+        /* الشريط الجانبي الأيمن */
+        .right-sidebar {
+            background-color: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: calc(100vh - 40px); /* Adjust for padding of main-app */
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .friends-list, .groups-list {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        .friends-list h3, .groups-list h3 {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            color: var(--primary-color);
+        }
+
+        .friend-item, .group-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f5f5f5;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .friend-item:hover, .group-item:hover {
+            background-color: #f9f9f9;
+        }
+        .friend-item:last-child, .group-item:last-child {
+            border-bottom: none;
+        }
+
+        .friend-avatar, .group-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            overflow: hidden; /* For image avatars */
+        }
+        .friend-avatar img, .group-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .friend-info, .group-info {
+            flex-grow: 1;
+        }
+
+        .friend-name, .group-name {
+            font-weight: 500;
+        }
+
+        .friend-status {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .friend-status.online {
+            background-color: #00b894;
+        }
+
+        .friend-status.offline {
+            background-color: #dfe6e9;
+        }
+
+        /* رسوم متحركة */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* تصميم متجاوب */
+        @media (max-width: 992px) {
+            .main-app {
+                grid-template-columns: 1fr;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .sidebar, .right-sidebar {
+                display: block; /* Show on smaller screens, but might stack */
+                height: auto;
+                margin-bottom: 20px;
+            }
+        }
+        @media (max-width: 768px) {
+            .logo h1 {
+                font-size: 3rem;
+            }
+            .login-container {
+                padding: 30px;
+            }
+            .main-app {
+                padding: 10px;
+            }
+            .chat-input {
+                flex-direction: column;
+            }
+            .chat-input input[type="text"] {
+                width: 100%;
+            }
+            .chat-input button, .chat-input .file-upload-btn {
+                width: 100%;
+                padding: 10px 15px;
+            }
+        }
+
+
+        /* تأثيرات خاصة - Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: moveParticles 15s infinite ease-in-out alternate;
+        }
+        .particle:nth-child(1) { width: 30px; height: 30px; top: 10%; left: 5%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 40px; height: 40px; top: 80%; left: 15%; animation-delay: 2s; animation-duration: 18s; }
+        .particle:nth-child(3) { width: 25px; height: 25px; top: 30%; left: 70%; animation-delay: 4s; animation-duration: 12s; }
+        .particle:nth-child(4) { width: 50px; height: 50px; top: 60%; left: 40%; animation-delay: 6s; animation-duration: 20s; }
+        .particle:nth-child(5) { width: 35px; height: 35px; top: 20%; left: 90%; animation-delay: 8s; animation-duration: 16s; }
+        .particle:nth-child(6) { width: 45px; height: 45px; top: 5%; left: 50%; animation-delay: 1s; animation-duration: 14s; }
+        .particle:nth-child(7) { width: 20px; height: 20px; top: 90%; left: 60%; animation-delay: 3s; animation-duration: 10s; }
+        .particle:nth-child(8) { width: 55px; height: 55px; top: 40%; left: 25%; animation-delay: 5s; animation-duration: 22s; }
+        .particle:nth-child(9) { width: 30px; height: 30px; top: 70%; left: 85%; animation-delay: 7s; animation-duration: 17s; }
+        .particle:nth-child(10) { width: 60px; height: 60px; top: 50%; left: 5%; animation-delay: 9s; animation-duration: 25s; }
+
+
+        @keyframes moveParticles {
+            0% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(10vw, 5vh) scale(1.1); }
+            50% { transform: translate(20vw, -10vh) scale(0.9); }
+            75% { transform: translate(-15vw, 15vh) scale(1.2); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="container login-screen" id="loginScreen">
+        <div class="logo animate__animated animate__fadeInDown">
+            <h1>Zi Link</h1>
+        </div>
+        <div class="login-container animate__animated">
+            <h2 id="authTitle">تسجيل الدخول</h2>
+            <form id="authForm">
+                <div class="form-group">
+                    <label for="username">اسم المستخدم</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group" id="uniqueIdGroup" style="display: none;">
+                    <label for="uniqueId">رمزك التعريفي الفريد</label>
+                    <input type="text" id="uniqueId" name="uniqueId" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn" id="authSubmitBtn">تسجيل الدخول</button>
+            </form>
+            <div class="signup-link">
+                <p id="toggleAuthText">ليس لديك حساب؟ <a href="#" id="toggleAuth">إنشاء حساب جديد</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-app" id="mainApp">
+        <div class="sidebar animate__animated animate__fadeInLeft">
+            <div class="profile-card">
+                <div class="profile-avatar" id="profileAvatar">A</div>
+                <div class="profile-name" id="profileName">اسم المستخدم</div>
+                <div class="profile-id" id="profileUniqueId">@UniqueId</div>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#" class="nav-link active" data-chat-type="global"><i class="fas fa-globe"></i>تواصل عبر العالم</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" data-chat-type="friends"><i class="fas fa-user-friends"></i>أصدقائي</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" data-chat-type="groups"><i class="fas fa-users"></i>مجموعاتي</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" data-chat-type="profile"><i class="fas fa-user-circle"></i>ملفي الشخصي</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" data-chat-type="settings"><i class="fas fa-cog"></i>الإعدادات</a></li>
+            </ul>
+            <button class="btn logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i>تسجيل الخروج</button>
+        </div>
+
+        <div class="chat-area animate__animated animate__fadeInUp">
+            <div class="chat-header">
+                <h3 class="chat-title" id="chatTitle">تواصل عبر العالم</h3>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                </div>
+            <div class="chat-input">
+                <input type="text" id="messageInput" placeholder="اكتب رسالتك...">
+                <label for="fileInput" class="file-upload-btn"><i class="fas fa-paperclip"></i></label>
+                <input type="file" id="fileInput" accept="image/*,video/*">
+                <button id="sendMessageBtn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+
+        <div class="right-sidebar animate__animated animate__fadeInRight">
+            <div class="search-friends-container">
+                <h3><i class="fas fa-search"></i>بحث عن أصدقاء</h3>
+                <div class="form-group">
+                    <input type="text" id="searchFriendsInput" placeholder="ابحث باسم المستخدم أو الرمز التعريفي">
+                </div>
+                <div id="searchResults" class="friends-list">
+                    </div>
+            </div>
+
+            <div class="friends-list">
+                <h3><i class="fas fa-user-friends"></i>الأصدقاء المتصلون</h3>
+                <div id="onlineFriendsList">
+                    <div class="friend-item">
+                        <div class="friend-avatar">ص</div>
+                        <div class="friend-info">
+                            <div class="friend-name">صديق 1</div>
+                            <div class="friend-status online"></div>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-avatar">ج</div>
+                        <div class="friend-info">
+                            <div class="friend-name">صديق 2</div>
+                            <div class="friend-status offline"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="groups-list">
+                <h3><i class="fas fa-users"></i>المجموعات</h3>
+                <div id="userGroupsList">
+                    <div class="group-item">
+                        <div class="group-avatar">م</div>
+                        <div class="group-name">مجموعة البرمجة</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginScreen = document.getElementById('loginScreen');
+            const mainApp = document.getElementById('mainApp');
+            const authForm = document.getElementById('authForm');
+            const authTitle = document.getElementById('authTitle');
+            const authSubmitBtn = document.getElementById('authSubmitBtn');
+            const toggleAuth = document.getElementById('toggleAuth');
+            const toggleAuthText = document.getElementById('toggleAuthText');
+            const uniqueIdGroup = document.getElementById('uniqueIdGroup');
+
+            const profileNameSpan = document.getElementById('profileName');
+            const profileUniqueIdSpan = document.getElementById('profileUniqueId');
+            const profileAvatarDiv = document.getElementById('profileAvatar');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const chatTitle = document.getElementById('chatTitle');
+            const chatMessages = document.getElementById('chatMessages');
+            const messageInput = document.getElementById('messageInput');
+            const sendMessageBtn = document.getElementById('sendMessageBtn');
+            const fileInput = document.getElementById('fileInput');
+
+            let isRegistering = false; // To toggle between login and register
+
+            // Particle Animation setup (optional, can be done with CSS)
+            // const particlesContainer = document.querySelector('.particles');
+            // for (let i = 0; i < 10; i++) {
+            //     const particle = document.createElement('div');
+            //     particle.classList.add('particle');
+            //     particle.style.width = `${Math.random() * 50 + 20}px`;
+            //     particle.style.height = particle.style.width;
+            //     particle.style.top = `${Math.random() * 100}%`;
+            //     particle.style.left = `${Math.random() * 100}%`;
+            //     particle.style.animationDelay = `${Math.random() * 10}s`;
+            //     particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+            //     particlesContainer.appendChild(particle);
+            // }
+
+            // --- Authentication Logic (Dummy for Frontend) ---
+            const showMainApp = (username, uniqueId) => {
+                loginScreen.style.display = 'none';
+                mainApp.style.display = 'grid'; // Use grid for main layout
+                mainApp.classList.add('animate__animated', 'animate__fadeIn'); // Add animation
+
+                // Set profile info
+                profileNameSpan.textContent = username;
+                profileUniqueIdSpan.textContent = `@${uniqueId}`;
+                profileAvatarDiv.textContent = username.charAt(0).toUpperCase(); // First letter as avatar
+                
+                // Save user info (for demonstration, use localStorage)
+                localStorage.setItem('ziLinkUser', JSON.stringify({ username, uniqueId }));
+            };
+
+            const checkAuth = () => {
+                const storedUser = localStorage.getItem('ziLinkUser');
+                if (storedUser) {
+                    const { username, uniqueId } = JSON.parse(storedUser);
+                    showMainApp(username, uniqueId);
+                }
+            };
+
+            authForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                const uniqueId = document.getElementById('uniqueId').value; // Will be empty if logging in
+
+                if (isRegistering) {
+                    if (!uniqueId) {
+                        alert('الرجاء إدخال رمز تعريفي فريد.');
+                        return;
+                    }
+                    // In a real app: Send to backend for registration
+                    alert(`تسجيل حساب جديد لـ: ${username} بـ ID: ${uniqueId}`);
+                    // Simulate successful registration and login
+                    showMainApp(username, uniqueId);
+                } else {
+                    // In a real app: Send to backend for login
+                    alert(`تسجيل دخول لـ: ${username}`);
+                    // Simulate successful login
+                    showMainApp(username, "DummyID123"); // Replace with actual ID from backend
+                }
+            });
+
+            toggleAuth.addEventListener('click', (e) => {
+                e.preventDefault();
+                isRegistering = !isRegistering;
+                if (isRegistering) {
+                    authTitle.textContent = 'إنشاء حساب جديد';
+                    authSubmitBtn.textContent = 'إنشاء حساب';
+                    toggleAuthText.innerHTML = 'لديك حساب بالفعل؟ <a href="#" id="toggleAuth">تسجيل الدخول</a>';
+                    uniqueIdGroup.style.display = 'block';
+                } else {
+                    authTitle.textContent = 'تسجيل الدخول';
+                    authSubmitBtn.textContent = 'تسجيل الدخول';
+                    toggleAuthText.innerHTML = 'ليس لديك حساب؟ <a href="#" id="toggleAuth">إنشاء حساب جديد</a>';
+                    uniqueIdGroup.style.display = 'none';
+                }
+                // Re-attach event listener as element might be replaced
+                document.getElementById('toggleAuth').addEventListener('click', toggleAuth.listener);
+            });
+            // Store reference to the listener to re-attach it
+            toggleAuth.listener = toggleAuth.addEventListener.bind(toggleAuth);
+
+
+            logoutBtn.addEventListener('click', () => {
+                localStorage.removeItem('ziLinkUser'); // Clear user data
+                mainApp.style.display = 'none';
+                loginScreen.style.display = 'block';
+                loginScreen.classList.add('animate__animated', 'animate__fadeIn');
+                // Reset form and state
+                authForm.reset();
+                isRegistering = false;
+                authTitle.textContent = 'تسجيل الدخول';
+                authSubmitBtn.textContent = 'تسجيل الدخول';
+                toggleAuthText.innerHTML = 'ليس لديك حساب؟ <a href="#" id="toggleAuth">إنشاء حساب جديد</a>';
+                uniqueIdGroup.style.display = 'none';
+                document.getElementById('toggleAuth').addEventListener('click', toggleAuth.listener);
+            });
+
+            // Initial check on load
+            checkAuth();
+
+
+            // --- Chat and Navigation Logic (Dummy for Frontend) ---
+            const renderMessage = (sender, text, type, time, avatar) => {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message', type); // 'sent' or 'received'
+
+                // Avatar for received messages, or for sent if we want to show our own avatar
+                if (avatar) {
+                    const avatarImg = document.createElement('img');
+                    avatarImg.src = avatar;
+                    avatarImg.alt = sender.charAt(0);
+                    avatarImg.classList.add('avatar');
+                    messageDiv.appendChild(avatarImg);
+                } else {
+                     // Fallback for avatar (first letter of name)
+                    const avatarDiv = document.createElement('div');
+                    avatarDiv.classList.add('avatar');
+                    avatarDiv.style.backgroundColor = type === 'sent' ? 'var(--primary-color)' : 'var(--secondary-color)';
+                    avatarDiv.textContent = sender.charAt(0).toUpperCase();
+                    messageDiv.appendChild(avatarDiv);
+                }
+
+
+                const messageContent = document.createElement('div');
+                messageContent.classList.add('message-content');
+
+                const senderName = document.createElement('div');
+                senderName.classList.add('message-sender');
+                senderName.textContent = sender;
+                messageContent.appendChild(senderName);
+
+                const messageText = document.createElement('p');
+                messageText.textContent = text;
+                messageContent.appendChild(messageText);
+
+                const messageTime = document.createElement('div');
+                messageTime.classList.add('message-time');
+                messageTime.textContent = time || new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+                messageContent.appendChild(messageTime);
+
+                messageDiv.appendChild(messageContent);
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
+            };
+
+            const currentChatType = 'global'; // Default chat type
+
+            // Simulate loading initial messages for global chat
+            renderMessage('ترحيب', 'مرحباً بكم في Zi Link! هذا تواصلكم العالمي الأول.', 'received');
+            renderMessage(profileNameSpan.textContent, 'مرحباً بالجميع!', 'sent');
+
+
+            sendMessageBtn.addEventListener('click', () => {
+                const messageText = messageInput.value.trim();
+                const file = fileInput.files[0];
+                const currentUser = JSON.parse(localStorage.getItem('ziLinkUser')).username;
+
+                if (messageText || file) {
+                    if (messageText) {
+                        renderMessage(currentUser, messageText, 'sent');
+                        // In real app: Send text message to backend
+                    }
+                    if (file) {
+                        // In real app: Upload file to backend, then send message with file URL
+                        alert(`سيتم رفع الملف: ${file.name} (يتطلب واجهة خلفية!)`);
+                        // Simulate sending file message
+                        renderMessage(currentUser, `تم إرسال ملف: ${file.name}`, 'sent'); // Or display image/video
+                    }
+                    messageInput.value = '';
+                    fileInput.value = ''; // Clear file input
+                }
+            });
+
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessageBtn.click();
+                }
+            });
+
+            // Navigation handler
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // Remove active class from all links
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    // Add active class to clicked link
+                    link.classList.add('active');
+
+                    const type = link.dataset.chatType;
+                    chatMessages.innerHTML = ''; // Clear current messages
+
+                    switch (type) {
+                        case 'global':
+                            chatTitle.textContent = 'تواصل عبر العالم';
+                            renderMessage('ترحيب', 'هذه دردشة عالمية! تحدث مع أي شخص.', 'received');
+                            break;
+                        case 'friends':
+                            chatTitle.textContent = 'محادثات الأصدقاء';
+                            renderMessage('نصيحة', 'هنا ستظهر محادثاتك الخاصة مع الأصدقاء.', 'received');
+                            // In real app: Load list of private chats
+                            break;
+                        case 'groups':
+                            chatTitle.textContent = 'محادثات المجموعات';
+                            renderMessage('نصيحة', 'هنا ستجد محادثات مجموعاتك.', 'received');
+                            // In real app: Load list of group chats
+                            break;
+                        case 'profile':
+                            chatTitle.textContent = 'ملفي الشخصي';
+                            chatMessages.innerHTML = `
+                                <div style="text-align: center; padding: 20px;">
+                                    <h3>بيانات المستخدم</h3>
+                                    <p><strong>اسم المستخدم:</strong> ${profileNameSpan.textContent}</p>
+                                    <p><strong>الرمز التعريفي:</strong> ${profileUniqueIdSpan.textContent}</p>
+                                    <p>هنا يمكنك إضافة خيار تعديل الملف الشخصي، تغيير الصورة، إلخ.</p>
+                                </div>
+                            `;
+                            break;
+                        case 'settings':
+                            chatTitle.textContent = 'الإعدادات';
+                            chatMessages.innerHTML = `
+                                <div style="text-align: center; padding: 20px;">
+                                    <h3>إعدادات الحساب</h3>
+                                    <p>هنا يمكنك إدارة إعدادات الخصوصية، الإشعارات، إلخ.</p>
+                                </div>
+                            `;
+                            break;
+                    }
+                });
+            });
+
+            // Dummy friends list click (to simulate opening a private chat)
+            document.getElementById('onlineFriendsList').addEventListener('click', (e) => {
+                const friendItem = e.target.closest('.friend-item');
+                if (friendItem) {
+                    const friendName = friendItem.querySelector('.friend-name').textContent;
+                    // Simulate opening a private chat
+                    navLinks.forEach(nav => nav.classList.remove('active')); // Deactivate all nav links
+                    document.querySelector('.nav-link[data-chat-type="friends"]').classList.add('active'); // Activate friends nav
+                    chatTitle.textContent = `محادثة مع ${friendName}`;
+                    chatMessages.innerHTML = ''; // Clear previous chat
+                    renderMessage('مرحباً', `بدأت محادثة خاصة مع ${friendName}.`, 'received');
+                }
+            });
+
+            // Dummy search friends logic
+            const searchFriendsInput = document.getElementById('searchFriendsInput');
+            const searchResultsDiv = document.getElementById('searchResults');
+            searchFriendsInput.addEventListener('input', () => {
+                const query = searchFriendsInput.value.trim().toLowerCase();
+                searchResultsDiv.innerHTML = ''; // Clear previous results
+
+                if (query.length > 0) {
+                    // In a real app: Send query to backend to search for users
+                    const dummyUsers = [
+                        { name: 'علي', id: 'ali123', status: 'online' },
+                        { name: 'فاطمة', id: 'fatima456', status: 'offline' },
+                        { name: 'أحمد', id: 'ahmed789', status: 'online' },
+                        { name: 'ليلى', id: 'laila007', status: 'online' }
+                    ];
+
+                    const results = dummyUsers.filter(user =>
+                        user.name.toLowerCase().includes(query) || user.id.toLowerCase().includes(query)
+                    );
+
+                    if (results.length > 0) {
+                        results.forEach(user => {
+                            const resultItem = document.createElement('div');
+                            resultItem.classList.add('friend-item');
+                            resultItem.innerHTML = `
+                                <div class="friend-avatar">${user.name.charAt(0).toUpperCase()}</div>
+                                <div class="friend-info">
+                                    <div class="friend-name">${user.name}</div>
+                                    <div class="profile-id">@${user.id}</div>
+                                </div>
+                                <button class="btn" style="width: auto; padding: 5px 10px; margin-right: 10px;">إضافة</button>
+                            `;
+                            searchResultsDiv.appendChild(resultItem);
+
+                            // Add event listener to "Add" button
+                            resultItem.querySelector('button').addEventListener('click', () => {
+                                alert(`تم إرسال طلب صداقة لـ ${user.name}`);
+                                // In real app: Send friend request to backend
+                            });
+                        });
+                    } else {
+                        searchResultsDiv.innerHTML = '<p style="text-align: center; color: #888; padding: 10px;">لا توجد نتائج مطابقة.</p>';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
